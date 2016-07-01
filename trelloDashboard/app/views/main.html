@@ -1,0 +1,45 @@
+<md-content ng-show="true" ng-init="init()" class="md-padding" layout-xs="column" layout="row" style="background-color: rgb(33, 150, 243)">
+    <md-input-container>
+        <label>Organization</label>
+        <md-select ng-model="chosenOrganization">
+            <md-option ng-repeat="organization in organizations" ng-click="getBoards(chosenOrganization)"
+                       value="{{organization.id}}">
+                {{organization.displayName}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+    <md-input-container>
+        <label>Boards</label>
+        <md-select ng-model="chosenBoard" >
+            <md-option ng-repeat="board in boards" value="{{board.id}}" ng-click="getBoard(board.id)">
+                {{board.name}}
+            </md-option>
+        </md-select>
+    </md-input-container>
+</md-content>
+
+<md-content layout-fill style="background-color: rgb(33, 150, 243)" >
+    <div ng-repeat="board in boards | filter : {id : chosenBoard}"  layout="row" >
+        <div ng-repeat="list in board.lists" layout="column" flex>
+            <span
+                    style="text-align: center; color : white; font-family: 'Roboto'; font-size: 20px; text-transform: uppercase">{{list.name}}</span>
+            <md-card ng-repeat="card in list.cards" layout="row">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{card.name}}</span>
+                        <span class="md-title">
+                            <span
+                                ng-style="{background : setColor(member.initials, true), color : setColor(member.initials, false)}"
+                                ng-if="member != undefined && member != null"
+                                ng-repeat="member in card.members">{{member.initials}}
+                            </span></span>
+                    </md-card-title-text>
+                    <md-card-title-media>
+                        <div class="md-media-sm card-media"></div>
+                    </md-card-title-media>
+                </md-card-title>
+            </md-card>
+        </div>
+    </div>
+</md-content>
+
